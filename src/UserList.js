@@ -1,34 +1,32 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-const List = () =>{
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-    state = {
-        users = [],
+
+const [data, setData] = useState({ listOfUSer : [] });
+
+const UserList = () =>{
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get(
+        "https://jsonplaceholder.typicode.com/users?query=redux"
+      );
+      setData(result.data);
     };
+    fetchData();
+  }, []);
 
-    return (
-
-
-    componentDidmount() {
-        axios.get (`https://jsonplaceholder.typicode.com/users`)
-        console.log (res);
-        .then (res => {
-            this.setstate( {users: res.data});
-        })
-    }
-            
-        
-    );
+  return (
+    <ul>
+      {data.listOfUSer.map(item => (
+        <li key={item.id}>
+          <a href={item.name}>{item.username}</a>
+        </li>
+      ))}
+    </ul>
+  );
 
 }
 
-render () {
 
-    return(
-        <ul>
-            {this.state.users.map(user=> <li>{user.name}</li>)}
-        </ul>
-
-    )
-}
-export default List;
+export default UserList
